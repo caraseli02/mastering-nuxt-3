@@ -71,6 +71,7 @@ const card = ref(null);
 const email = ref('');
 const processingPayment = ref(false);
 const success = ref(false);
+const supabase = useSupabaseClient();
 
 const formStyle = {
   base: {
@@ -132,6 +133,10 @@ const handleSubmit = async () => {
 
     if (response.paymentIntent.status === 'succeeded') {
       success.value = true;
+
+      await supabase.auth.updateUser({
+        data: { courses: [1] },
+      });
     }
   } catch (e) {
     console.log(e);
